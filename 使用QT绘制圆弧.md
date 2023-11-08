@@ -1,8 +1,8 @@
 从HMI程序中列举的几个关键函数、类
 
 ```cpp
-QPainterPath *painterPath
-painterPath->moveTo
+QPainterPath *painterPath;
+painterPath->moveTo;
 painterPath->arcTo(newRect,althp,fabs(360+delta));
 p.drawPath(*painterPath);
 ```
@@ -45,3 +45,9 @@ path.moveTo(wid+30,30+het/2);
 ## drawPath
 
 使用画笔的drawPath可以画出这个圆弧
+
+
+
+## 总结
+
+由上述可知，绘制一个圆弧需要求出其外切的正方形的起始点和长宽,以及圆弧的弧度（想像成一个圆饼的话就是他的角度）如果圆弧需要与前一个点连接的话，需要根据圆心坐标做出矩形(对于圆来说是正方形，椭圆是长方形)，然后通过终点位置计算出弧度。
