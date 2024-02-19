@@ -144,3 +144,33 @@ modbus_set_slave(ctx,1);
 
 ```
 
+```cpp
+MODBUS_FC_READ_COILS (0x01) - 读取线圈状态。请求设备返回其当前状态为"on"或"off"的线圈列表。
+MODBUS_FC_READ_DISCRETE_INPUTS (0x02) - 读取离散输入状态。请求设备返回其当前状态为"on"或"off"的离散输入列表。
+MODBUS_FC_READ_HOLDING_REGISTERS (0x03) - 读取保持寄存器。请求设备返回其当前保持寄存器的值。
+MODBUS_FC_READ_INPUT_REGISTERS (0x04) - 读取输入寄存器。请求设备返回其当前输入寄存器的值。
+MODBUS_FC_WRITE_SINGLE_COIL (0x05) - 写入单个线圈。请求设备将特定线圈设置为"on"或"off"。
+MODBUS_FC_WRITE_SINGLE_REGISTER (0x06) - 写入单个寄存器。请求设备设置特定寄存器的值为请求的值。
+MODBUS_FC_READ_EXCEPTION_STATUS (0x07) - 读取异常状态。请求设备返回其当前异常状态（如果有）。
+MODBUS_FC_WRITE_MULTIPLE_COILS (0x0F) - 写入多个线圈。请求设备设置多个线圈的状态。
+MODBUS_FC_WRITE_MULTIPLE_REGISTERS (0x10) - 写入多个寄存器。请求设备设置多个寄存器的值。
+MODBUS_FC_REPORT_SLAVE_ID (0x11) - 报告从设备ID。请求设备返回其从设备ID。
+MODBUS_FC_MASK_WRITE_REGISTER (0x16) - 掩码写入寄存器。请求设备将特定寄存器的值设置为一个新的值，但只有那些位与掩码中相应位为"1"的位会被修改。
+MODBUS_FC_WRITE_AND_READ_REGisters (0x17) - 写入和读取寄存器。请求设备首先写入一个值，然后读取另一个设备的寄存器，并将结果返回给发送请求的设备。
+```
+
+构造原始请求
+
+```cpp
+	//注意 在发送前依旧需要设置从站 即使这个请求中已经有写从站了
+	uint8_t raw_req[] = { 0x01, MODBUS_FC_READ_HOLDING_REGISTERS, 0x00, 0x01, 0x0, 0x05 };
+	//从站地址-功能码-起始地址-个数
+	// 发送原始请求  
+	rc = modbus_send_raw_request(ctx, raw_req, req_length);
+	if (rc == -1) {
+		printf("发送请求失败\n");
+		// 处理发送错误...  
+		return ;
+	}
+```
+
